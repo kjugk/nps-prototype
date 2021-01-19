@@ -12,9 +12,13 @@ interface Props {
 const ProjectsPage: NextPage<Props> = ({ projects }) => {
   return (
     <div>
+      <h1>プロジェクト一覧</h1>
       <ul>
         {projects.map((p) => (
-          <li key={p.id}>{p.name}</li>
+          <li key={p.id}>
+            <div>{p.name}</div>
+            <div>{p.companyName}</div>
+          </li>
         ))}
       </ul>
     </div>
@@ -23,8 +27,8 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // cookie からユーザー復元する
-  const repository = new ProjectRepository();
-  const projects = await repository.getAll();
+  const projectRepository = new ProjectRepository();
+  const projects = await projectRepository.getAll();
 
   return {
     props: {
