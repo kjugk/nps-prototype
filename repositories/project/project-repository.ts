@@ -1,6 +1,8 @@
 import { Project } from "../../models/project";
 import { ProjectDocument } from "../../lib/firestore/documents";
 import { getCollectionSnapShot } from "../../lib/firestore/get-collection-snapshot";
+import { firestore } from "../../firebaseAdmin";
+import { QuerySnapshot } from "@google-cloud/firestore";
 
 export class ProjectRepository {
   // プロジェクト一覧を取得する
@@ -20,5 +22,24 @@ export class ProjectRepository {
     });
 
     return projects;
+  }
+
+  async getByCompanyId(companyId: string): Promise<Project[]> {
+    const snapshot = (await firestore
+      .collection("projects")
+      .where("companyId", "==", companyId)
+      .get()) as QuerySnapshot<ProjectDocument>;
+
+    if (snapshot.empty) return [];
+
+    return snapshot.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        name: data.name,
+        companyName: data.companyName,
+        companyId: data.companyId,
+      };
+    });
   }
 }

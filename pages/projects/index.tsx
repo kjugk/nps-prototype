@@ -1,6 +1,6 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import Link from "next/link";
 import { ProjectRepository } from "../../repositories/project/project-repository";
-import { NextPage } from "next";
 import { Project } from "../../models/project";
 
 interface Props {
@@ -17,7 +17,9 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
         {projects.map((p) => (
           <li key={p.id}>
             <div>{p.name}</div>
-            <div>{p.companyName}</div>
+            <div>
+              <Link href={`/companies/${p.companyId}`}>{p.companyName}</Link>
+            </div>
           </li>
         ))}
       </ul>
@@ -25,14 +27,16 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   // cookie からユーザー復元する
   const projectRepository = new ProjectRepository();
   const projects = await projectRepository.getAll();
 
   return {
     props: {
-      projects: projects,
+      projects,
     }, // will be passed to the page component as props
   };
 };

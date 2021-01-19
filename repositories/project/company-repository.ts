@@ -1,14 +1,13 @@
-import { firestore } from "../../firebaseAdmin";
 import { Company } from "../../models/company";
-import { QuerySnapshot } from "@google-cloud/firestore";
 import { CompanyDocument } from "../../lib/firestore/documents";
+import { getCollectionSnapShot } from "../../lib/firestore/get-collection-snapshot";
+import { firestore } from "../../firebaseAdmin";
+import { DocumentSnapshot } from "@google-cloud/firestore";
 
 export class CompanyRepository {
   // 企業一覧を取得する
   async getAll(): Promise<Company[]> {
-    const qs = (await firestore
-      .collection("companies")
-      .get()) as QuerySnapshot<CompanyDocument>;
+    const qs = await getCollectionSnapShot<CompanyDocument>("companies");
     const companies: Company[] = [];
 
     qs.forEach((ds) => {
@@ -20,5 +19,14 @@ export class CompanyRepository {
     });
 
     return companies;
+  }
+
+  // ID で指定された企業を取得する
+  async getCompany(id: string): Promise<Company> {
+    const docRef = firestore.collection("companies").doc(id);
+    const doc = (await docRef.get()) as DocumentSnapshot<Company>;
+    // TODO 存在チェック
+
+    return doc.data();
   }
 }
