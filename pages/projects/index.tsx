@@ -13,16 +13,23 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
   return (
     <div>
       <h1>プロジェクト一覧</h1>
-      <ul>
+      <table>
+        <tr>
+          <th>プロジェクト名</th>
+          <th>企業名</th>
+          <th>統括</th>
+        </tr>
+
         {projects.map((p) => (
-          <li key={p.id}>
-            <div>{p.name}</div>
-            <div>
+          <tr key={p.id}>
+            <td>{p.name}</td>
+            <td>
               <Link href={`/companies/${p.companyId}`}>{p.companyName}</Link>
-            </div>
-          </li>
+            </td>
+            <td>{p.managerName}</td>
+          </tr>
         ))}
-      </ul>
+      </table>
     </div>
   );
 };

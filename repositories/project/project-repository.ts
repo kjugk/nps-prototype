@@ -15,9 +15,7 @@ export class ProjectRepository {
 
       projects.push({
         id: ds.id,
-        name: data.name,
-        companyId: data.companyId,
-        companyName: data.companyName,
+        ...data,
       });
     });
 
@@ -36,9 +34,7 @@ export class ProjectRepository {
       const data = d.data();
       return {
         id: d.id,
-        name: data.name,
-        companyName: data.companyName,
-        companyId: data.companyId,
+        ...data,
       };
     });
   }
