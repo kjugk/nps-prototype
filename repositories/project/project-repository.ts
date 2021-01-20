@@ -2,8 +2,10 @@ import { Project } from "../../models/project";
 import { ProjectDocument } from "../../lib/firestore/documents";
 import { getCollectionSnapShot } from "../../lib/firestore/get-collection-snapshot";
 import { firestore } from "../../firebaseAdmin";
-import { QuerySnapshot } from "@google-cloud/firestore";
+import { QuerySnapshot, DocumentSnapshot } from "@google-cloud/firestore";
 
+// クラスにする必要ある?
+// Interface 定義するわけじゃないし、モジュールでいいかも。。
 export class ProjectRepository {
   // プロジェクト一覧を取得する
   async getAll(): Promise<Project[]> {
@@ -37,5 +39,19 @@ export class ProjectRepository {
         ...data,
       };
     });
+  }
+
+  async getProject(projectId: string): Promise<Project> {
+    const snapshot = (await firestore
+      .collection("projects")
+      .doc(projectId)
+      .get()) as DocumentSnapshot<ProjectDocument>;
+
+    const data = snapshot.data();
+
+    return {
+      id: snapshot.id,
+      ...data,
+    };
   }
 }
