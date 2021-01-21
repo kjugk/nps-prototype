@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { NextPage } from "next";
 import { ProjectRepository } from "../../../repositories/project/project-repository";
 import { Nps, Project } from "../../../models/project";
@@ -16,22 +17,31 @@ const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
     <div>
       <h1>{project.name} のNPS一覧</h1>
       <table>
-        <tr>
-          <th>回答者名</th>
-          <th>メンバー</th>
-          <th>回答日時</th>
-        </tr>
-        {npsList.map((nps) => (
+        <tbody>
           <tr>
-            <td>{nps.answererName}</td>
-            <td>
-              {nps.members.map((member) => {
-                return <span>{member.name}</span>;
-              })}
-            </td>
-            <td>{nps.answeredAt}</td>
+            <th>NPS ID</th>
+            <th>ステータス</th>
+            <th>回答者名</th>
+            <th>メンバー</th>
+            <th>回答日時</th>
           </tr>
-        ))}
+
+          {npsList.map((nps) => (
+            <tr key={nps.id}>
+              <td>
+                <Link href={`/nps-list/${nps.id}`}>XXXXX</Link>
+              </td>
+              <td>{nps.status === "done" ? "回答済" : "未回答"}</td>
+              <td>{nps.answererName === "" ? "-" : nps.answererName}</td>
+              <td>
+                {nps.members.map((member, i) => (
+                  <span key={i}>{member.name === "" ? "-" : member.name}</span>
+                ))}
+              </td>
+              <td>{nps.answeredAt}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
@@ -40,18 +50,21 @@ const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  // cookie からユーザー復元する
+  // cookie の JWT からユーザー復元する
 
   let { projectId } = context.query;
   projectId = Array.isArray(projectId) ? projectId[0] : projectId;
-  const project = await new ProjectRepository().getProject(projectId);
-  const npsList = await new NpsRepository().getAllByProject(projectId);
+
+  const [project, npsList] = await Promise.all([
+    new ProjectRepository().getProject(projectId),
+    new NpsRepository().getAllByProject(projectId),
+  ]);
 
   return {
     props: {
       project,
       npsList,
-    }, // will be passed to the page component as props
+    },
   };
 };
 

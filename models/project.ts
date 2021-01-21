@@ -10,13 +10,33 @@ export interface Nps {
   companyId: string;
   companyName: string; // 冗長だけど値を持たせる
   answererName: string;
-  answeredAt: string;
+  answeredAt: string | null;
   memberIds: string[]; // メンバー別 NPS 検索用
+  status: "yet" | "done";
   members: {
     // 冗長だけど値を持たせる
     id: string;
     name: string;
   }[];
+}
+
+export interface NpsQuestion {
+  order: number;
+  question: string;
+  type: "score" | "text";
+}
+
+export interface NpsAnswer {
+  question: string;
+  type: "text" | "score";
+  answer: string;
+  order: number;
+}
+
+export interface NpsMemberAnswer {
+  memberId: string;
+  memberName: string;
+  answers: NpsAnswer[];
 }
 
 export interface Project {
@@ -26,4 +46,9 @@ export interface Project {
   companyName: string; // 冗長だけど値を持たせる
   managerId: string;
   managerName: string;
+  members: {
+    // 冗長だけど値を持たせる
+    id: string;
+    name: string;
+  }[];
 }

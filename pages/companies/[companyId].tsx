@@ -39,6 +39,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   let { companyId } = context.query;
   companyId = Array.isArray(companyId) ? companyId[0] : companyId;
   const companyRepository = new CompanyRepository();
+
   const company = await companyRepository.getCompany(companyId);
   const companyProjects = await new ProjectRepository().getByCompanyId(
     companyId
