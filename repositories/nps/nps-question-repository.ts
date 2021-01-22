@@ -1,6 +1,9 @@
 import { firestore } from "../../firebaseAdmin";
-import { NpsQuestionDocument } from "../../lib/firestore/documents";
-import { NpsQuestion } from "../../models/project";
+import {
+  NpsMemberQuestionDocument,
+  NpsQuestionDocument,
+} from "../../lib/firestore/documents";
+import { NpsQuestion, NpsMemberQuestion } from "../../models/project";
 import { QuerySnapshot } from "@google-cloud/firestore";
 
 export class NpsQuestionRepository {
@@ -12,6 +15,22 @@ export class NpsQuestionRepository {
 
     return qs.docs.map((doc) => {
       const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+      };
+    });
+  }
+
+  async getAllMemberQuestions(): Promise<NpsMemberQuestion[]> {
+    const qs = (await firestore
+      .collection("nps--member-questions")
+      .orderBy("order")
+      .get()) as QuerySnapshot<NpsMemberQuestionDocument>;
+
+    return qs.docs.map((doc) => {
+      const data = doc.data();
+
       return {
         id: doc.id,
         ...data,

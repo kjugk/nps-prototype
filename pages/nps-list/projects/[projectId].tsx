@@ -29,7 +29,7 @@ const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
           {npsList.map((nps) => (
             <tr key={nps.id}>
               <td>
-                <Link href={`/nps-list/${nps.id}`}>XXXXX</Link>
+                <Link href={`/nps-list/${nps.id}`}>{nps.id}</Link>
               </td>
               <td>{nps.status === "done" ? "回答済" : "未回答"}</td>
               <td>{nps.answererName === "" ? "-" : nps.answererName}</td>
@@ -50,7 +50,7 @@ const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
 export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
-  // cookie の JWT からユーザー復元する
+  // cookie の JWT からユーザー復元して、users からカレントユーザー取得する
 
   let { projectId } = context.query;
   projectId = Array.isArray(projectId) ? projectId[0] : projectId;

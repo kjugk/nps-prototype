@@ -37,6 +37,12 @@ export interface NpsQuestionDocument {
   type: "score" | "text";
 }
 
+export interface NpsMemberQuestionDocument {
+  order: number;
+  question: string;
+  type: "score" | "text";
+}
+
 export interface NpsAnswerDocument {
   question: string;
   type: "text" | "score";
