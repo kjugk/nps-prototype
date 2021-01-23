@@ -1,21 +1,35 @@
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { NextPage } from "next";
 import { ProjectRepository } from "../../../repositories/project/project-repository";
 import { Nps, Project } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
+import axios from "axios";
 
 interface Props {
   project: Project;
   npsList: Nps[];
 }
 
-// プロジェクト一覧を表示する
-// TODO ログインしてなかったら sign-in ページにリダイレクト
 const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
+  const router = useRouter();
+  const handleCreateNps = async () => {
+    // TODO クライアント用のユースケース作る?
+    await axios.post("/api/create-nps", {
+      projectId: project.id,
+    });
+
+    window.alert("NPS を作成しました。");
+    router.reload();
+  };
+
   return (
     <div>
-      <h1>{project.name} のNPS一覧</h1>
+      <h1>{project.name} プロジェクトのNPS一覧</h1>
+      <button type="button" onClick={handleCreateNps}>
+        新規作成
+      </button>
       <table>
         <tbody>
           <tr>
@@ -38,7 +52,7 @@ const NpsListByProject: NextPage<Props> = ({ project, npsList }) => {
                   <span key={i}>{member.name === "" ? "-" : member.name}</span>
                 ))}
               </td>
-              <td>{nps.answeredAt}</td>
+              <td>{nps.answeredAt ?? "-"}</td>
             </tr>
           ))}
         </tbody>

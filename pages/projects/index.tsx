@@ -15,16 +15,16 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
       <h1>プロジェクト一覧</h1>
       <table>
         <tbody>
-          <thead>
-            <tr>
-              <th>プロジェクト名</th>
-              <th>企業名</th>
-              <th>統括</th>
-            </tr>
-          </thead>
+          <tr>
+            <th>プロジェクトID</th>
+            <th>プロジェクト名</th>
+            <th>企業名</th>
+            <th>統括</th>
+          </tr>
 
           {projects.map((p) => (
             <tr key={p.id}>
+              <td>{p.id}</td>
               <td>{p.name}</td>
               <td>
                 <Link href={`/companies/${p.companyId}`}>{p.companyName}</Link>

@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await Promise.all([...promises, ...memberPromises]);
 
-    res.status(200);
+    res.status(200).end();
   } else {
   }
 };

@@ -43,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     await batch.commit();
 
-    res.status(200);
+    res.status(200).end();
   } else {
   }
 };
