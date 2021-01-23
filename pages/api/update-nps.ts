@@ -18,10 +18,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const npsId = req.body.npsId;
     const params: Params = req.body.params;
 
-    let batch = firestore.batch();
     // nps 取得
     const project = await new NpsRepository().getNpsById(npsId);
     // TODO 存在確認
+
+    const batch = firestore.batch();
 
     // nps update
     const npsRef = firestore.collection("nps-list").doc(npsId);

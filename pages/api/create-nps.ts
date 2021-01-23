@@ -10,7 +10,6 @@ import {
 import { CollectionReference } from "@google-cloud/firestore";
 
 // nps を作成する
-// usecase に切り出す?
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == "POST") {
     const { projectId } = req.body;
