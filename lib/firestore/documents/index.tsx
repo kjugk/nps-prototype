@@ -55,3 +55,7 @@ export interface NpsMemberAnswerDocument {
   memberName: string;
   answers: NpsAnswerDocument[];
 }
+
+export interface MemberDocument {
+  name: string;
+}

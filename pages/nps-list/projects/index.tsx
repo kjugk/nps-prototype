@@ -25,7 +25,7 @@ const NpsListByProjectsPage: NextPage<Props> = ({ projects }) => {
             <tr key={p.id}>
               <td>{p.id}</td>
               <td>
-                <Link href={`/nps-list/projects/${p.id}`}>{p.name}</Link>
+                <Link href={`/nps-list/projects/${p.id}`}>{p.name || ""}</Link>
               </td>
               <td>{p.companyName}</td>
               <td>{p.managerName}</td>
