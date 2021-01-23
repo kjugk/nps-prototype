@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { firestore } from "../../firebaseAdmin";
-import { NpsRepository } from "../../repositories/nps/nps-repository";
+import { firestore } from "../../../firebaseAdmin";
+import { NpsRepository } from "../../../repositories/nps/nps-repository";
+import { Timestamp } from "@google-cloud/firestore";
 
 interface Params {
   answererName: string;
@@ -15,8 +16,10 @@ interface Params {
 // nps を作成する
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == "PUT") {
-    const npsId = req.body.npsId;
-    const params: Params = req.body.params;
+    let { npsId } = req.query;
+    const params: Params = req.body;
+
+    npsId = Array.isArray(npsId) ? npsId[0] : npsId;
 
     // nps 取得
     const project = await new NpsRepository().getNpsById(npsId);
@@ -28,6 +31,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const npsRef = firestore.collection("nps-list").doc(npsId);
     batch.update(npsRef, {
       answererName: params.answererName,
+      answeredAt: Timestamp.fromDate(new Date()),
+      status: "done",
     });
 
     // nps-answers update

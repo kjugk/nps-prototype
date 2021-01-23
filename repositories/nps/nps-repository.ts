@@ -47,6 +47,7 @@ export class NpsRepository {
   async getNpsAnswers(npsId: string): Promise<NpsAnswer[]> {
     const qs = (await firestore
       .collection(`nps-list/${npsId}/answers`)
+      .orderBy("order")
       .get()) as QuerySnapshot<NpsAnswerDocument>;
 
     if (qs.empty) return [];

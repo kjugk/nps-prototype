@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
 import { useForm, useFieldArray } from "react-hook-form";
+import axios from "axios";
 
 // プロジェクト一覧を表示する
 // TODO ログインしてなかったら sign-in ページにリダイレクト
@@ -29,8 +30,8 @@ const NpsEditPage: NextPage<Props> = ({
     keyName: "id",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    await axios.put(`/api/update-nps/${nps.id}`, data);
   };
 
   return (
