@@ -1,12 +1,18 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Company } from "../../models/company";
 import { Member } from "../../models/project";
 import { MemberRepository } from "../../repositories/member/member-repository";
 import { CompanyRepository } from "../../repositories/project/company-repository";
 import axios from "axios";
+import { PageLayout } from "../../components/page-layout";
+import { Button } from "../../components/button";
+import { TextField } from "../../components/text-field";
+import { SelectBox } from "../../components/select-box";
+import { FormLabel } from "../../components/form-label";
+import { FormField } from "../../components/form-field";
 
 interface Props {
   companies: Company[];
@@ -49,78 +55,88 @@ const NewProjectsPage: NextPage<Props> = ({ companies, members }) => {
   };
 
   return (
-    <div>
-      <h1>プロジェクト登録</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="projectName">プロジェクト名</label>
-          <input type="text" name="name" id="projectName" ref={register} />
-        </div>
+    <PageLayout>
+      <h1>プロジェクト作成</h1>
 
-        <div>
-          <label htmlFor="companyId">企業</label>
-          <select
-            name="companyId"
-            id="companyId"
-            ref={register}
-            onChange={(e) => {
-              setCompanyName(
-                companies.find((c) => c.id === e.currentTarget.value).name
-              );
-            }}
-          >
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="bg-white mt-4 p-4">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormField>
+            <FormLabel htmlFor="projectName" labelText="プロジェクト名" />
+            <TextField
+              name="name"
+              id="projectName"
+              inputRef={register({
+                required: true,
+              })}
+            />
+          </FormField>
 
-        <div>
-          <label htmlFor="managerId">統括</label>
-          <select
-            name="managerId"
-            id="managerId"
-            ref={register}
-            onChange={(e) => {
-              setManagerName(
-                members.find((m) => m.id === e.currentTarget.value).name
-              );
-            }}
-          >
-            {members.map((member) => (
-              <option key={member.id} value={member.id}>
-                {member.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <FormField>
+            <FormLabel htmlFor="companyId" labelText="企業" />
+            <SelectBox
+              name="companyId"
+              id="companyId"
+              inputRef={register()}
+              onChange={(e) => {
+                setCompanyName(
+                  companies.find((c) => c.id === e.currentTarget.value).name
+                );
+              }}
+            >
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.name}
+                </option>
+              ))}
+            </SelectBox>
+          </FormField>
 
-        <div>
-          <label>メンバー</label>
-          {fields.map((field, index) => (
-            <select
-              name={`memberIds[${index}].value`}
-              ref={register()}
-              key={field.id}
+          <FormField>
+            <FormLabel htmlFor="managerId" labelText="統括" />
+            <SelectBox
+              name="managerId"
+              id="managerId"
+              inputRef={register}
+              onChange={(e) => {
+                setManagerName(
+                  members.find((m) => m.id === e.currentTarget.value).name
+                );
+              }}
             >
               {members.map((member) => (
                 <option key={member.id} value={member.id}>
                   {member.name}
                 </option>
               ))}
-            </select>
-          ))}
+            </SelectBox>
+          </FormField>
 
-          <button type="button" onClick={() => append({ name: "" })}>
-            +
-          </button>
-        </div>
+          <FormField>
+            <FormLabel labelText="メンバー" />
+            {fields.map((field, index) => (
+              <SelectBox
+                id=""
+                name={`memberIds[${index}].value`}
+                inputRef={register()}
+                key={field.id}
+              >
+                {members.map((member) => (
+                  <option key={member.id} value={member.id}>
+                    {member.name}
+                  </option>
+                ))}
+              </SelectBox>
+            ))}
 
-        <button type="submit">作成</button>
-      </form>
-    </div>
+            <Button type="button" onClick={() => append({ name: "" })}>
+              追加
+            </Button>
+          </FormField>
+
+          <Button type="submit">作成</Button>
+        </form>
+      </div>
+    </PageLayout>
   );
 };
 

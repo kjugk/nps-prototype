@@ -3,6 +3,9 @@ import Link from "next/link";
 import { CompanyRepository } from "../../repositories/project/company-repository";
 import { NextPage } from "next";
 import { Company } from "../../models/company";
+import { PageLayout } from "../../components/page-layout";
+import { TableCell } from "../../components/table-cell";
+import { TableHeader } from "../../components/table-header";
 
 interface Props {
   companies: Company[];
@@ -12,16 +15,30 @@ interface Props {
 // TODO ログインしてなかったら sign-in ページにリダイレクト
 const CompaniesPage: NextPage<Props> = ({ companies }) => {
   return (
-    <div>
+    <PageLayout>
       <h1>企業一覧</h1>
-      <ul>
-        {companies.map((c) => (
-          <li key={c.id}>
-            <Link href={`/companies/${c.id}`}>{c.name}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+
+      <div className="bg-white mt-4">
+        <table className="w-full table-fixed">
+          <thead>
+            <tr>
+              <TableHeader>企業ID</TableHeader>
+              <TableHeader>企業名</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {companies.map((c) => (
+              <tr key={c.id}>
+                <TableCell>{c.id}</TableCell>
+                <TableCell>
+                  <Link href={`/companies/${c.id}`}>{c.name}</Link>
+                </TableCell>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </PageLayout>
   );
 };
 
