@@ -9,28 +9,27 @@ import { QuerySnapshot, QueryDocumentSnapshot } from "@google-cloud/firestore";
 
 export class NpsRepository {
   // 指定されたプロジェクトに紐づくNPS一覧を取得する
-  async getAllByProject(projectId: string): Promise<Nps[]> {
+  async getAllNpsByProject(projectId: string): Promise<Nps[]> {
     const qs = (await firestore
-      .collection("nps-list")
+      .collection("nps")
       .where("projectId", "==", projectId)
+      .orderBy("createdAt", "desc")
       .get()) as QuerySnapshot<NpsDocument>;
 
-    const npsList: Nps[] = [];
-    qs.forEach((q) => {
+    return qs.docs.map((q) => {
       const data = q.data();
-      npsList.push({
+      return {
         id: q.id,
         ...data,
+        createdAt: data.createdAt.toDate().toDateString(),
         answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
-      });
+      };
     });
-
-    return npsList;
   }
 
   async getNpsById(npsId: string): Promise<Nps> {
     const qs = (await firestore
-      .collection("nps-list")
+      .collection("nps")
       .doc(npsId)
       .get()) as QueryDocumentSnapshot<NpsDocument>;
 
@@ -40,13 +39,14 @@ export class NpsRepository {
     return {
       id: qs.id,
       ...data,
+      createdAt: data.createdAt.toDate().toDateString(),
       answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
     };
   }
 
   async getNpsAnswers(npsId: string): Promise<NpsAnswer[]> {
     const qs = (await firestore
-      .collection(`nps-list/${npsId}/answers`)
+      .collection(`nps/${npsId}/answers`)
       .orderBy("order")
       .get()) as QuerySnapshot<NpsAnswerDocument>;
 
@@ -63,7 +63,7 @@ export class NpsRepository {
 
   async getNpsMemberAnswers(npsId: string): Promise<NpsMemberAnswer[]> {
     const qs = (await firestore
-      .collection(`nps-list/${npsId}/member-answers`)
+      .collection(`nps/${npsId}/member-answers`)
       .get()) as QuerySnapshot<NpsMemberAnswerDocument>;
 
     if (qs.empty) return [];

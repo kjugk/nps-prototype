@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const batch = firestore.batch();
 
     // nps update
-    const npsRef = firestore.collection("nps-list").doc(npsId);
+    const npsRef = firestore.collection("nps").doc(npsId);
     batch.update(npsRef, {
       answererName: params.answererName,
       answeredAt: Timestamp.fromDate(new Date()),
@@ -37,9 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // nps-answers update
     params.answers.forEach((a) => {
-      const ref = firestore
-        .collection(`nps-list/${npsId}/answers`)
-        .doc(a.answerId);
+      const ref = firestore.collection(`nps/${npsId}/answers`).doc(a.answerId);
 
       batch.update(ref, {
         answer: a.answer,

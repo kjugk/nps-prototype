@@ -19,9 +19,11 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
   return (
     <PageLayout>
       <div>
-        <h1 className="mb-2">プロジェクト設定</h1>
+        <h1 className="mb-2">プロジェクト一覧</h1>
         <div>
-          <Button onClick={() => router.push("/projects/new")}>新規作成</Button>
+          <Button onClick={() => router.push("/projects/new")}>
+            新規プロジェクト作成
+          </Button>
         </div>
       </div>
 
@@ -40,7 +42,7 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
           <tbody>
             {projects.map((p) => (
               <Link href={`/projects/${p.id}`} key={p.id}>
-                <tr key={p.id} className="cursor-pointer hover:bg-gray-100">
+                <tr className="cursor-pointer hover:bg-gray-100">
                   <TableCell>{p.id}</TableCell>
                   <TableCell>{p.name}</TableCell>
                   <TableCell>{p.companyName}</TableCell>

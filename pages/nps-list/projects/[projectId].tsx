@@ -71,7 +71,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
 
   const [project, npsList] = await Promise.all([
     new ProjectRepository().getProject(projectId),
-    new NpsRepository().getAllByProject(projectId),
+    new NpsRepository().getAllNpsByProject(projectId),
   ]);
 
   return {

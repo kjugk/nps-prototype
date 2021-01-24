@@ -7,7 +7,7 @@ import {
   NpsDocument,
   NpsMemberAnswerDocument,
 } from "../../lib/firestore/documents";
-import { CollectionReference } from "@google-cloud/firestore";
+import { CollectionReference, Timestamp } from "@google-cloud/firestore";
 
 // nps を作成する
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -24,7 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // nps 作成
     const nps = await (firestore.collection(
-      "nps-list"
+      "nps"
     ) as CollectionReference<NpsDocument>).add({
       answererName: "",
       answeredAt: null,
@@ -35,10 +35,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       memberIds: project.members.map((m) => m.id),
       members: project.members,
       status: "yet",
+      createdAt: Timestamp.fromDate(new Date()),
     });
 
     const promises = npsQuestions.map((q) => {
-      return firestore.collection(`nps-list/${nps.id}/answers`).add({
+      return firestore.collection(`nps/${nps.id}/answers`).add({
         answer: "",
         order: q.order,
         question: q.question,
@@ -58,7 +59,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: q.type,
         })),
       };
-      return firestore.collection(`nps-list/${nps.id}/member-answers`).add(doc);
+      return firestore.collection(`nps/${nps.id}/member-answers`).add(doc);
     });
 
     await Promise.all([...promises, ...memberPromises]);

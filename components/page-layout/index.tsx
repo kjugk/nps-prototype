@@ -8,17 +8,17 @@ export const PageLayout: FC = ({ children }) => {
         <div className="h-full w-200 bg-blue">
           <div className="text-2xl p-4 pt-8">Goodpatch NPS</div>
           <ul className="text-white">
-            <li className="hover:bg-blue-300">
+            <li className="hover:bg-blue-300 cursor-pointer">
               <Link href="/projects">
                 <div className="p-4">プロジェクト一覧</div>
               </Link>
             </li>
-            <li className="hover:bg-blue-300">
+            <li className="hover:bg-blue-300 cursor-pointer">
               <Link href="/companies">
                 <div className="p-4">社員一覧</div>
               </Link>
             </li>
-            <li className="hover:bg-blue-300">
+            <li className="hover:bg-blue-300 cursor-pointer">
               <Link href="/companies">
                 <div className="p-4">企業一覧</div>
               </Link>

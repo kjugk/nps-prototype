@@ -25,6 +25,7 @@ export interface NpsDocument {
   projectName: string;
   memberIds: string[];
   status: "yet" | "done";
+  createdAt: Timestamp;
   members: {
     id: string;
     name: string;
