@@ -14,8 +14,8 @@ export const PageLayout: FC = ({ children }) => {
               </Link>
             </li>
             <li className="hover:bg-blue-300 cursor-pointer">
-              <Link href="/companies">
-                <div className="p-4">社員一覧</div>
+              <Link href="/members">
+                <div className="p-4">メンバー一覧</div>
               </Link>
             </li>
             <li className="hover:bg-blue-300 cursor-pointer">

@@ -4,7 +4,7 @@ import { QuerySnapshot } from "@google-cloud/firestore";
 import { Member } from "../../models/project";
 
 export class MemberRepository {
-  // 企業一覧を取得する
+  // 社員一覧を取得する
   async getMembers(): Promise<Member[]> {
     const qs = (await firestore
       .collection("members")
