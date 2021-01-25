@@ -12,6 +12,7 @@ import { Button } from "../../components/button";
 import { TableHeader } from "../../components/table-header";
 import { TableCell } from "../../components/table-cell";
 import { Box } from "../../components/box";
+import { Label } from "../../components/label";
 
 interface Props {
   project: Project;
@@ -75,7 +76,11 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
                       <Link href={`/nps-list/${nps.id}`}>{nps.id}</Link>
                     </TableCell>
                     <TableCell>
-                      {nps.status === "done" ? "回答済" : "未回答"}
+                      {nps.status === "done" ? (
+                        <Label>回答済</Label>
+                      ) : (
+                        <Label variant="warning">未回答</Label>
+                      )}
                     </TableCell>
                     <TableCell>
                       {nps.answererName === "" ? "-" : nps.answererName}

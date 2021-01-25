@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { NextPage } from "next";
 import { Box } from "../../../components/box";
+import { Button } from "../../../components/button";
 import { Divider } from "../../../components/divider";
 import { PageLayout } from "../../../components/page-layout";
 import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
@@ -15,8 +16,18 @@ interface Props {
 // プロジェクト一覧を表示する
 // TODO ログインしてなかったら sign-in ページにリダイレクト
 const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(
+      `http://localhost:3000/nps-list/${nps.id}/edit`
+    );
+  };
+
   return (
     <PageLayout>
+      <div className="mb-4">
+        <Button onClick={handleCopyUrl}>回答ページのURLをコピー</Button>
+      </div>
+
       <Box>
         <h2>回答情報</h2>
         <Divider />
