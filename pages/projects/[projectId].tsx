@@ -70,10 +70,10 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
 
             <tbody>
               {npsList.map((nps) => (
-                <Link href={`/nps-list/${nps.id}`} key={nps.id}>
+                <Link href={`/nps/${nps.id}`} key={nps.id}>
                   <tr className="cursor-pointer hover:bg-gray-100">
                     <TableCell>
-                      <Link href={`/nps-list/${nps.id}`}>{nps.id}</Link>
+                      <Link href={`/nps/${nps.id}`}>{nps.id}</Link>
                     </TableCell>
                     <TableCell>
                       {nps.status === "done" ? (

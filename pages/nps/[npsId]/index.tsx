@@ -17,9 +17,7 @@ interface Props {
 // TODO ログインしてなかったら sign-in ページにリダイレクト
 const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
   const handleCopyUrl = () => {
-    navigator.clipboard.writeText(
-      `http://localhost:3000/nps-list/${nps.id}/edit`
-    );
+    navigator.clipboard.writeText(`http://localhost:3000/nps/${nps.id}/edit`);
   };
 
   return (
