@@ -7,7 +7,10 @@ interface Props {
 
 export const FormLabel: FC<Props> = ({ htmlFor, labelText }) => {
   return (
-    <label className="block text-sm font-bold mb-2" htmlFor={htmlFor}>
+    <label
+      className="block text-gray-400 text-sm font-bold mb-2"
+      htmlFor={htmlFor}
+    >
       {labelText}
     </label>
   );

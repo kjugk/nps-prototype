@@ -4,15 +4,20 @@ import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
 import { useForm, useFieldArray } from "react-hook-form";
 import axios from "axios";
+import { Box } from "../../../components/box";
+import { Divider } from "../../../components/divider";
+import { FormField } from "../../../components/form-field";
+import { FormLabel } from "../../../components/form-label";
+import { TextField } from "../../../components/text-field";
+import { Button } from "../../../components/button";
 
-// プロジェクト一覧を表示する
-// TODO ログインしてなかったら sign-in ページにリダイレクト
 interface Props {
   nps: Nps;
   npsAnswers: NpsAnswer[];
   npsMemberAnswers: NpsMemberAnswer[];
 }
 
+// NPS 回答ページ
 const NpsEditPage: NextPage<Props> = ({
   nps,
   npsAnswers,
@@ -32,49 +37,76 @@ const NpsEditPage: NextPage<Props> = ({
 
   const onSubmit = async (data) => {
     await axios.put(`/api/update-nps/${nps.id}`, data);
+    window.alert("回答を送信しました！");
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h2>NPS 回答ページ</h2>
+    <div>
+      <header className="bg-blue p-4 text-white">NPS</header>
+      <div className="w-2/4 mx-auto">
+        <Box>
+          <p>
+            今後のプロジェクト品質向上のため、アンケートにご協力をお願いいたします
+          </p>
+        </Box>
 
-      <h3>ご回答者さまについて</h3>
-      <input
-        type="text"
-        name="answererName"
-        placeholder="氏名"
-        ref={register}
-      />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box>
+            <h3>ご回答者さまについて</h3>
+            <Divider />
 
-      <h3>プロジェクトについて</h3>
-      <ul>
-        {fields.map((field, index) => (
-          <li key={field.id}>
-            <h4>{field.question}</h4>
-            <input
-              type="text"
-              name={`answers[${index}].answer`}
-              ref={register()}
-            />
-            <input
-              type="hidden"
-              name={`answers[${index}].answerId`}
-              ref={register()}
-              value={field.id}
-            />
-          </li>
-        ))}
+            <FormField>
+              <FormLabel labelText="氏名" htmlFor="answererName" />
+              <TextField
+                id="answererName"
+                name="answererName"
+                inputRef={register()}
+              />
+            </FormField>
+          </Box>
 
-        {/* {npsAnswers.map((a, i) => (
+          <Box>
+            <h3>プロジェクトについて</h3>
+            <Divider />
+
+            <ul>
+              {fields.map((field, index) => (
+                <li key={field.id}>
+                  <FormField>
+                    <FormLabel
+                      labelText={field.question}
+                      htmlFor={`answers[${index}].answer`}
+                    />
+                    <TextField
+                      id={`answers[${index}].answer`}
+                      name={`answers[${index}].answer`}
+                      inputRef={register()}
+                    />
+                    <input
+                      type="hidden"
+                      name={`answers[${index}].answerId`}
+                      ref={register()}
+                      value={field.id}
+                    />
+                  </FormField>
+                </li>
+              ))}
+
+              {/* {npsAnswers.map((a, i) => (
           <li key={i}>
             <div>{a.question}</div>
             <input type="text" />
           </li>
         ))} */}
-      </ul>
+            </ul>
+          </Box>
 
-      <button type="submit">送信</button>
-    </form>
+          <div className="align-center pb-8">
+            <Button type="submit">送信</Button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

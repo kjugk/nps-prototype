@@ -9,7 +9,10 @@ import { QuerySnapshot, DocumentSnapshot } from "@google-cloud/firestore";
 export class ProjectRepository {
   // プロジェクト一覧を取得する
   async getAll(): Promise<Project[]> {
-    const qs = await getCollectionSnapShot<ProjectDocument>("projects");
+    const qs = (await firestore
+      .collection("projects")
+      .get()) as QuerySnapshot<ProjectDocument>;
+
     const projects: Project[] = [];
 
     qs.forEach((ds) => {

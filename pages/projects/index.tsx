@@ -7,6 +7,7 @@ import { PageLayout } from "../../components/page-layout";
 import { TableCell } from "../../components/table-cell";
 import { Button } from "../../components/button";
 import { TableHeader } from "../../components/table-header";
+import { Box } from "../../components/box";
 
 interface Props {
   projects: Project[];
@@ -18,16 +19,14 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
 
   return (
     <PageLayout>
-      <div>
-        <h1 className="mb-2">プロジェクト一覧</h1>
-        <div>
-          <Button onClick={() => router.push("/projects/new")}>
-            新規プロジェクト作成
-          </Button>
-        </div>
+      <div className="mb-4 flex items-center">
+        <h1 className="mr-4">プロジェクト一覧</h1>
+        <Button onClick={() => router.push("/projects/new")}>
+          新規プロジェクト作成
+        </Button>
       </div>
 
-      <div className="bg-white mt-4">
+      <Box noPadding>
         <table className="w-full table-fixed">
           <thead>
             <tr>
@@ -57,7 +56,7 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
             ))}
           </tbody>
         </table>
-      </div>
+      </Box>
     </PageLayout>
   );
 };

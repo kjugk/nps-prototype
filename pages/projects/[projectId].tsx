@@ -11,6 +11,7 @@ import React from "react";
 import { Button } from "../../components/button";
 import { TableHeader } from "../../components/table-header";
 import { TableCell } from "../../components/table-cell";
+import { Box } from "../../components/box";
 
 interface Props {
   project: Project;
@@ -30,33 +31,31 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
 
   return (
     <PageLayout>
-      <h1 className="mb-2">{project.name} プロジェクト</h1>
+      <h1 className="mb-4">{project.name} プロジェクト</h1>
 
-      <section className="mb-8">
-        <div className="mb-4">
-          <h2 className="mb-2">詳細情報</h2>
-          <Button type="button" onClick={handleCreateNps}>
-            プロジェクト編集
-          </Button>
+      <section>
+        <div className="mb-4 flex items-center">
+          <h2 className="mr-4">詳細情報</h2>
+          <Button type="button">プロジェクト編集</Button>
         </div>
 
-        <div className="bg-white p-4">
+        <Box>
           <div>ID: {project.id}</div>
           <div>企業: {project.companyName}</div>
           <div>統括: {project.managerName}</div>
           <div>メンバー: {project.members.map((m) => m.name).join(" , ")}</div>
-        </div>
+        </Box>
       </section>
 
       <section className="mb-8">
-        <div className="mb-4">
-          <h2 className="mb-2">NPS 一覧</h2>
+        <div className="mb-4 flex items-center">
+          <h2 className="mr-4">NPS 一覧</h2>
           <Button type="button" onClick={handleCreateNps}>
             新規 NPS 作成
           </Button>
         </div>
 
-        <div className="bg-white">
+        <Box noPadding>
           <table className="w-full table-fixed">
             <thead>
               <tr>
@@ -82,11 +81,7 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
                       {nps.answererName === "" ? "-" : nps.answererName}
                     </TableCell>
                     <TableCell>
-                      {nps.members.map((member, i) => (
-                        <span key={i}>
-                          {member.name === "" ? "-" : member.name}
-                        </span>
-                      ))}
+                      {nps.members.map((member) => member.name).join(" , ")}
                     </TableCell>
                     <TableCell>{nps.answeredAt ?? "-"}</TableCell>
                   </tr>
@@ -94,7 +89,7 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
               ))}
             </tbody>
           </table>
-        </div>
+        </Box>
       </section>
     </PageLayout>
   );

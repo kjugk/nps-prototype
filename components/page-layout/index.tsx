@@ -5,8 +5,8 @@ export const PageLayout: FC = ({ children }) => {
   return (
     <div className="flex h-full flex-col">
       <div className="flex flex-1">
-        <div className="h-full w-200 bg-blue">
-          <div className="text-2xl p-4 pt-8">Goodpatch NPS</div>
+        <div className="h-full w-52 bg-blue">
+          <div className="text-2xl p-4 pt-8 text-white">NPS</div>
           <ul className="text-white">
             <li className="hover:bg-blue-300 cursor-pointer">
               <Link href="/projects">

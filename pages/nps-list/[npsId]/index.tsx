@@ -1,5 +1,8 @@
 import { GetServerSideProps } from "next";
 import { NextPage } from "next";
+import { Box } from "../../../components/box";
+import { Divider } from "../../../components/divider";
+import { PageLayout } from "../../../components/page-layout";
 import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
 
@@ -13,18 +16,23 @@ interface Props {
 // TODO ログインしてなかったら sign-in ページにリダイレクト
 const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
   return (
-    <div>
-      <h2>回答情報</h2>
-      <ul>
-        <li>ステータス : {nps.status === "yet" ? "未回答" : "回答済"}</li>
-        <li>プロジェクト名 : {nps.projectName}</li>
-        <li>回答者 : {nps.answererName || "-"}</li>
-        <li>企業名 : {nps.companyName}</li>
-        <li>回答日時 : {nps.answeredAt}</li>
-      </ul>
+    <PageLayout>
+      <Box>
+        <h2>回答情報</h2>
+        <Divider />
 
-      <>
+        <ul>
+          <li>ステータス : {nps.status === "yet" ? "未回答" : "回答済"}</li>
+          <li>プロジェクト名 : {nps.projectName}</li>
+          <li>回答者 : {nps.answererName || "-"}</li>
+          <li>企業名 : {nps.companyName}</li>
+          <li>回答日時 : {nps.answeredAt}</li>
+        </ul>
+      </Box>
+
+      <Box>
         <h2>回答内容</h2>
+        <Divider />
         <ul>
           {npsAnswers.map((answer, i) => (
             <li key={i}>
@@ -33,8 +41,11 @@ const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
             </li>
           ))}
         </ul>
+      </Box>
 
+      <Box>
         <h2>メンバー別回答内容</h2>
+        <Divider />
         <ul>
           {npsMemberAnswers.map((memberAnswer, i) => (
             <li key={i}>
@@ -50,8 +61,8 @@ const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
             </li>
           ))}
         </ul>
-      </>
-    </div>
+      </Box>
+    </PageLayout>
   );
 };
 

@@ -7,6 +7,7 @@ import { PageLayout } from "../../components/page-layout";
 import { TableCell } from "../../components/table-cell";
 import { TableHeader } from "../../components/table-header";
 import { Button } from "../../components/button";
+import { Box } from "../../components/box";
 
 interface Props {
   companies: Company[];
@@ -17,11 +18,13 @@ interface Props {
 const CompaniesPage: NextPage<Props> = ({ companies }) => {
   return (
     <PageLayout>
-      <h1 className="mb-2">企業一覧</h1>
-      <Button>新規企業作成</Button>
+      <div className="mb-4 flex">
+        <h1 className="mr-4">企業一覧</h1>
+        <Button>新規企業作成</Button>
+      </div>
 
-      <div className="bg-white mt-4">
-        <table className="w-full table-fixed">
+      <Box>
+        <table className="table-fixed">
           <thead>
             <tr>
               <TableHeader>企業ID</TableHeader>
@@ -39,7 +42,7 @@ const CompaniesPage: NextPage<Props> = ({ companies }) => {
             ))}
           </tbody>
         </table>
-      </div>
+      </Box>
     </PageLayout>
   );
 };
