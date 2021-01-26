@@ -17,15 +17,18 @@ interface Params {
 // project を作成する
 // TODO auth
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const params: Params = req.body;
-  const doc = await firestore.collection("projects").add({
-    ...params,
-    createdAt: Timestamp.fromDate(new Date()),
-  });
+  if (req.method == "POST") {
+    const params: Params = req.body;
+    const doc = await firestore.collection("projects").add({
+      ...params,
+      createdAt: Timestamp.fromDate(new Date()),
+    });
 
-  res.status(200).end(
-    JSON.stringify({
-      id: doc.id,
-    })
-  );
+    res.status(200).end(
+      JSON.stringify({
+        id: doc.id,
+      })
+    );
+  } else {
+  }
 };
