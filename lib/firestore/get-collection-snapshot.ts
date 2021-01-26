@@ -1,4 +1,4 @@
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../firebase/firebaseAdmin";
 import { QuerySnapshot } from "@google-cloud/firestore";
 
 export const getCollectionSnapShot = async <T>(collectionName: string) => {

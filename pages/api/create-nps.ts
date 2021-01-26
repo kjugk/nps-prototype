@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../../lib/firebase/firebaseAdmin";
 import { NpsQuestionRepository } from "../../repositories/nps/nps-question-repository";
 import { ProjectRepository } from "../../repositories/project/project-repository";
 import {

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { firestore } from "../../../firebaseAdmin";
+import { firestore } from "../../../lib/firebase/firebaseAdmin";
 import { Timestamp } from "@google-cloud/firestore";
 
 interface Params {

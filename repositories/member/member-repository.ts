@@ -1,5 +1,5 @@
 import { MemberDocument } from "../../lib/firestore/documents";
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../../lib/firebase/firebaseAdmin";
 import { QuerySnapshot, QueryDocumentSnapshot } from "@google-cloud/firestore";
 import { Member } from "../../models/project";
 

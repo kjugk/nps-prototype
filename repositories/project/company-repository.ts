@@ -1,7 +1,7 @@
 import { Company } from "../../models/company";
 import { CompanyDocument } from "../../lib/firestore/documents";
 import { getCollectionSnapShot } from "../../lib/firestore/get-collection-snapshot";
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../../lib/firebase/firebaseAdmin";
 import { DocumentSnapshot } from "@google-cloud/firestore";
 
 export class CompanyRepository {

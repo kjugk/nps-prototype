@@ -1,4 +1,4 @@
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../../lib/firebase/firebaseAdmin";
 import {
   NpsDocument,
   NpsAnswerDocument,

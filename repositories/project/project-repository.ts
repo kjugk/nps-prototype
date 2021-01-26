@@ -1,6 +1,6 @@
 import { Project } from "../../models/project";
 import { ProjectDocument } from "../../lib/firestore/documents";
-import { firestore } from "../../firebaseAdmin";
+import { firestore } from "../../lib/firebase/firebaseAdmin";
 import { QuerySnapshot, DocumentSnapshot } from "@google-cloud/firestore";
 
 // クラスにする必要ある?
