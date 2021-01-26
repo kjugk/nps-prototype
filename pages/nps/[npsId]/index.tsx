@@ -10,7 +10,7 @@ import { NpsRepository } from "../../../repositories/nps/nps-repository";
 interface Props {
   nps: Nps;
   npsAnswers: NpsAnswer[];
-  npsMemberAnswers: NpsMemberAnswer[];
+  npsMemberAnswers: { [memberId: string]: NpsMemberAnswer[] };
 }
 
 // プロジェクト一覧を表示する
@@ -30,13 +30,13 @@ const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
         <h2>回答情報</h2>
         <Divider />
 
-        <ul>
-          <li>ステータス : {nps.status === "yet" ? "未回答" : "回答済"}</li>
-          <li>プロジェクト名 : {nps.projectName}</li>
-          <li>回答者 : {nps.answererName || "-"}</li>
-          <li>企業名 : {nps.companyName}</li>
-          <li>回答日時 : {nps.answeredAt}</li>
-        </ul>
+        <div className="grid grid-cols-2">
+          <div>ステータス : {nps.status === "yet" ? "未回答" : "回答済"}</div>
+          <div>プロジェクト名 : {nps.projectName}</div>
+          <div>回答者 : {nps.answererName || "-"}</div>
+          <div>企業名 : {nps.companyName}</div>
+          <div>回答日時 : {nps.answeredAt}</div>
+        </div>
       </Box>
 
       <Box>
@@ -44,33 +44,35 @@ const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
         <Divider />
         <ul>
           {npsAnswers.map((answer, i) => (
-            <li key={i}>
+            <li key={i} className="mb-4">
               <div>{answer.question}</div>
-              <div>{answer.answer}</div>
+              <p className="font-bold">{answer.answer}</p>
             </li>
           ))}
         </ul>
       </Box>
 
-      <Box>
-        <h2>メンバー別回答内容</h2>
-        <Divider />
-        <ul>
-          {npsMemberAnswers.map((memberAnswer, i) => (
-            <li key={i}>
-              <div>{memberAnswer.memberName}</div>
-              <ul>
-                {memberAnswer.answers.map((answer, j) => (
-                  <li key={j}>
-                    <div>{answer.question}</div>
-                    <div>{answer.answer}</div>
+      {nps.members.map((member) => {
+        const answers = npsMemberAnswers[member.id];
+        if (!answers) return null;
+
+        return (
+          <Box key={member.id}>
+            <h2>{member.name} への評価</h2>
+            <Divider />
+            <ul>
+              {answers.map((a) => {
+                return (
+                  <li key={a.id} className="mb-4">
+                    <div>{a.question}</div>
+                    <p className="font-bold">{a.answer}</p>
                   </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </Box>
+                );
+              })}
+            </ul>
+          </Box>
+        );
+      })}
     </PageLayout>
   );
 };

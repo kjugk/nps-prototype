@@ -19,7 +19,7 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
 
   return (
     <PageLayout>
-      <div className="mb-4 flex items-center">
+      <div className="mb-8 flex items-center">
         <h1 className="mr-4">プロジェクト一覧</h1>
         <Button onClick={() => router.push("/projects/new")}>
           新規プロジェクト作成
@@ -35,6 +35,8 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
               <TableHeader>企業名</TableHeader>
               <TableHeader>統括</TableHeader>
               <TableHeader>メンバー</TableHeader>
+              <TableHeader>開始日</TableHeader>
+              <TableHeader>終了日</TableHeader>
             </tr>
           </thead>
 
@@ -51,6 +53,8 @@ const ProjectsPage: NextPage<Props> = ({ projects }) => {
                       {p.members.map((m) => m.name).join(" , ")}
                     </span>
                   </TableCell>
+                  <TableCell>-</TableCell>
+                  <TableCell>-</TableCell>
                 </tr>
               </Link>
             ))}

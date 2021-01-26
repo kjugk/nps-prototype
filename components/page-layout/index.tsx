@@ -23,6 +23,9 @@ export const PageLayout: FC = ({ children }) => {
                 <div className="p-4">企業一覧</div>
               </Link>
             </li>
+            <li className="hover:bg-blue-300 cursor-pointer">
+              <div className="p-4">NPSテンプレート編集</div>
+            </li>
           </ul>
         </div>
         <div className="h-full flex-1 p-8 bg-gray-100">{children}</div>

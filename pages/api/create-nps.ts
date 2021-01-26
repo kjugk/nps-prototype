@@ -7,7 +7,11 @@ import {
   NpsDocument,
   NpsMemberAnswerDocument,
 } from "../../lib/firestore/documents";
-import { CollectionReference, Timestamp } from "@google-cloud/firestore";
+import {
+  CollectionReference,
+  DocumentReference,
+  Timestamp,
+} from "@google-cloud/firestore";
 
 // nps を作成する
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -48,18 +52,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     // メンバー別質問
-    const memberPromises = project.members.map((member) => {
-      const doc: NpsMemberAnswerDocument = {
-        memberId: member.id,
-        memberName: member.name,
-        answers: npsMemberQuestions.map((q) => ({
+    const memberPromises: Promise<DocumentReference>[] = [];
+    project.members.forEach((member) => {
+      npsMemberQuestions.forEach((q) => {
+        const doc: NpsMemberAnswerDocument = {
+          memberId: member.id,
+          memberName: member.name,
           answer: "",
           order: q.order,
           question: q.question,
           type: q.type,
-        })),
-      };
-      return firestore.collection(`nps/${nps.id}/member-answers`).add(doc);
+        };
+
+        memberPromises.push(
+          firestore.collection(`nps/${nps.id}/member-answers`).add(doc)
+        );
+      });
     });
 
     await Promise.all([...promises, ...memberPromises]);

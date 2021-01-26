@@ -1,0 +1,12 @@
+.item {
+  @apply inline-block;
+}
+
+.item.link {
+  @apply underline cursor-pointer text-blue;
+}
+
+.item:not(:last-child)::after {
+  content: "/";
+  @apply mx-2;
+}

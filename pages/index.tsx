@@ -1,5 +1,12 @@
-import { PageLayout } from "../components/page-layout";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  return <PageLayout></PageLayout>;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/projects");
+  }, []);
+
+  return null;
 }

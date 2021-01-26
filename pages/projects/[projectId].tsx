@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { NextPage } from "next";
 import { ProjectRepository } from "../../repositories/project/project-repository";
 import { Nps, Project } from "../../models/project";
@@ -9,10 +8,9 @@ import axios from "axios";
 import { PageLayout } from "../../components/page-layout";
 import React from "react";
 import { Button } from "../../components/button";
-import { TableHeader } from "../../components/table-header";
-import { TableCell } from "../../components/table-cell";
 import { Box } from "../../components/box";
-import { Label } from "../../components/label";
+import { NpsList } from "../../components/shared/nps-list";
+import { Breadcrumbs } from "../../components/breadcrumbs";
 
 interface Props {
   project: Project;
@@ -32,70 +30,50 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
 
   return (
     <PageLayout>
-      <h1 className="mb-4">{project.name} プロジェクト</h1>
+      <Breadcrumbs
+        items={[
+          {
+            url: "/projects",
+            text: "プロジェクト一覧",
+          },
+          {
+            text: project.name,
+          },
+        ]}
+      />
 
-      <section>
-        <div className="mb-4 flex items-center">
-          <h2 className="mr-4">詳細情報</h2>
-          <Button type="button">プロジェクト編集</Button>
-        </div>
+      <article>
+        <h1 className="mb-8">{project.name}</h1>
 
-        <Box>
-          <div>ID: {project.id}</div>
-          <div>企業: {project.companyName}</div>
-          <div>統括: {project.managerName}</div>
-          <div>メンバー: {project.members.map((m) => m.name).join(" , ")}</div>
-        </Box>
-      </section>
+        <section>
+          <div className="mb-4 flex items-center">
+            <h2 className="mr-4">詳細情報</h2>
+            <Button type="button">プロジェクト編集</Button>
+          </div>
 
-      <section className="mb-8">
-        <div className="mb-4 flex items-center">
-          <h2 className="mr-4">NPS 一覧</h2>
-          <Button type="button" onClick={handleCreateNps}>
-            新規 NPS 作成
-          </Button>
-        </div>
+          <Box>
+            <div>ID: {project.id}</div>
+            <div>企業: {project.companyName}</div>
+            <div>統括: {project.managerName}</div>
+            <div>
+              メンバー: {project.members.map((m) => m.name).join(" , ")}
+            </div>
+          </Box>
+        </section>
 
-        <Box noPadding>
-          <table className="w-full table-fixed">
-            <thead>
-              <tr>
-                <TableHeader>NPS ID</TableHeader>
-                <TableHeader>ステータス</TableHeader>
-                <TableHeader>回答者名</TableHeader>
-                <TableHeader>メンバー</TableHeader>
-                <TableHeader>回答日時</TableHeader>
-              </tr>
-            </thead>
+        <section className="mb-8">
+          <div className="mb-4 flex items-center">
+            <h2 className="mr-4">NPS 一覧</h2>
+            <Button type="button" onClick={handleCreateNps}>
+              新規 NPS 作成
+            </Button>
+          </div>
 
-            <tbody>
-              {npsList.map((nps) => (
-                <Link href={`/nps/${nps.id}`} key={nps.id}>
-                  <tr className="cursor-pointer hover:bg-gray-100">
-                    <TableCell>
-                      <Link href={`/nps/${nps.id}`}>{nps.id}</Link>
-                    </TableCell>
-                    <TableCell>
-                      {nps.status === "done" ? (
-                        <Label>回答済</Label>
-                      ) : (
-                        <Label variant="warning">未回答</Label>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {nps.answererName === "" ? "-" : nps.answererName}
-                    </TableCell>
-                    <TableCell>
-                      {nps.members.map((member) => member.name).join(" , ")}
-                    </TableCell>
-                    <TableCell>{nps.answeredAt ?? "-"}</TableCell>
-                  </tr>
-                </Link>
-              ))}
-            </tbody>
-          </table>
-        </Box>
-      </section>
+          <Box noPadding>
+            <NpsList npsList={npsList} />
+          </Box>
+        </section>
+      </article>
     </PageLayout>
   );
 };

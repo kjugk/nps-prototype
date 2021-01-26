@@ -6,6 +6,7 @@ export interface ProjectDocument {
   companyName: string;
   managerId: string;
   managerName: string;
+  createdAt: Timestamp;
   members: {
     id: string;
     name: string;
@@ -54,7 +55,10 @@ export interface NpsAnswerDocument {
 export interface NpsMemberAnswerDocument {
   memberId: string;
   memberName: string;
-  answers: NpsAnswerDocument[];
+  order: number;
+  answer: string;
+  question: string;
+  type: "text" | "score";
 }
 
 export interface MemberDocument {

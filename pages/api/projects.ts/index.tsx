@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { firestore } from "../../../firebaseAdmin";
+import { Timestamp } from "@google-cloud/firestore";
 
 interface Params {
   name: string;
@@ -18,9 +19,10 @@ interface Params {
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == "POST") {
     const params: Params = req.body;
-    console.log(params);
-
-    const doc = await firestore.collection("projects").add(params);
+    const doc = await firestore.collection("projects").add({
+      ...params,
+      createdAt: Timestamp.fromDate(new Date()),
+    });
 
     res.status(200).end(
       JSON.stringify({

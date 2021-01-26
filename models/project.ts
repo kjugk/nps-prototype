@@ -41,9 +41,13 @@ export interface NpsAnswer {
 }
 
 export interface NpsMemberAnswer {
+  id: string;
   memberId: string;
   memberName: string;
-  answers: NpsAnswer[];
+  question: string;
+  type: "text" | "score";
+  answer: string;
+  order: number;
 }
 
 export interface Project {
@@ -53,6 +57,7 @@ export interface Project {
   companyName: string; // 冗長だけど値を持たせる
   managerId: string;
   managerName: string;
+  createdAt: string;
   members: {
     // 冗長だけど値を持たせる
     id: string;

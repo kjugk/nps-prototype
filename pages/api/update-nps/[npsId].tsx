@@ -11,6 +11,12 @@ interface Params {
       answer: string;
     }
   ];
+  memberAnswers: [
+    {
+      id: string;
+      answer: string;
+    }
+  ];
 }
 
 // nps を作成する
@@ -38,6 +44,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     // nps-answers update
     params.answers.forEach((a) => {
       const ref = firestore.collection(`nps/${npsId}/answers`).doc(a.answerId);
+
+      batch.update(ref, {
+        answer: a.answer,
+      });
+    });
+
+    // member-answers update
+    params.memberAnswers.forEach((a) => {
+      const ref = firestore.collection(`nps/${npsId}/member-answers`).doc(a.id);
 
       batch.update(ref, {
         answer: a.answer,

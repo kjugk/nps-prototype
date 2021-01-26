@@ -14,7 +14,9 @@ import { Button } from "../../../components/button";
 interface Props {
   nps: Nps;
   npsAnswers: NpsAnswer[];
-  npsMemberAnswers: NpsMemberAnswer[];
+  npsMemberAnswers: {
+    [memberId: string]: NpsMemberAnswer[];
+  };
 }
 
 // NPS 回答ページ
@@ -64,7 +66,6 @@ const NpsEditPage: NextPage<Props> = ({
               />
             </FormField>
           </Box>
-
           <Box>
             <h3>プロジェクトについて</h3>
             <Divider />
@@ -91,17 +92,44 @@ const NpsEditPage: NextPage<Props> = ({
                   </FormField>
                 </li>
               ))}
-
-              {/* {npsAnswers.map((a, i) => (
-          <li key={i}>
-            <div>{a.question}</div>
-            <input type="text" />
-          </li>
-        ))} */}
             </ul>
           </Box>
 
-          <div className="align-center pb-8">
+          {nps.members.map((member, i) => {
+            const answers = npsMemberAnswers[member.id];
+
+            return (
+              <Box key={member.id}>
+                <h3>{member.name} について</h3>
+                <Divider />
+
+                {answers.map((a, j) => {
+                  const index = i * answers.length + j;
+
+                  return (
+                    <div key={a.id}>
+                      <FormField>
+                        <FormLabel labelText={a.question} />
+                        <TextField
+                          id={`memberAnswers[${index}].answer`}
+                          name={`memberAnswers[${index}].answer`}
+                          inputRef={register()}
+                        />
+                      </FormField>
+                      <input
+                        type="hidden"
+                        name={`memberAnswers[${index}].id`}
+                        ref={register()}
+                        value={a.id}
+                      />
+                    </div>
+                  );
+                })}
+              </Box>
+            );
+          })}
+
+          <div className="text-center pb-8">
             <Button type="submit">送信</Button>
           </div>
         </form>
@@ -120,7 +148,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const [nps, npsAnswers, npsMemberAnswers] = await Promise.all([
     repository.getNpsById(npsId),
     repository.getNpsAnswers(npsId),
-    repository.getNpsMemberAnswers(npsId),
+    repository.getNpsMemberAnswers(npsId), // TODO normalize して返す
   ]);
 
   // 回答済だったら表示しない

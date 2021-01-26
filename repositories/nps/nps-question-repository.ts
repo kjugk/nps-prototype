@@ -24,7 +24,7 @@ export class NpsQuestionRepository {
 
   async getAllMemberQuestions(): Promise<NpsMemberQuestion[]> {
     const qs = (await firestore
-      .collection("nps--member-questions")
+      .collection("nps-member-questions")
       .orderBy("order")
       .get()) as QuerySnapshot<NpsMemberQuestionDocument>;
 

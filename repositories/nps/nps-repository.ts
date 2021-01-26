@@ -27,6 +27,25 @@ export class NpsRepository {
     });
   }
 
+  // 指定されたメンバーに紐づくNPS一覧を取得する
+  async getAllNpsByMember(memberId: string): Promise<Nps[]> {
+    const qs = (await firestore
+      .collection("nps")
+      .where("memberIds", "array-contains", memberId)
+      .orderBy("createdAt", "desc")
+      .get()) as QuerySnapshot<NpsDocument>;
+
+    return qs.docs.map((q) => {
+      const data = q.data();
+      return {
+        id: q.id,
+        ...data,
+        createdAt: data.createdAt.toDate().toDateString(),
+        answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
+      };
+    });
+  }
+
   async getNpsById(npsId: string): Promise<Nps> {
     const qs = (await firestore
       .collection("nps")
@@ -61,19 +80,38 @@ export class NpsRepository {
     });
   }
 
-  async getNpsMemberAnswers(npsId: string): Promise<NpsMemberAnswer[]> {
+  async getNpsMemberAnswers(
+    npsId: string
+  ): Promise<{
+    [memberId: string]: NpsMemberAnswer[];
+  }> {
     const qs = (await firestore
       .collection(`nps/${npsId}/member-answers`)
+      .orderBy("order")
       .get()) as QuerySnapshot<NpsMemberAnswerDocument>;
 
-    if (qs.empty) return [];
+    if (qs.empty) return {};
 
-    return qs.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-      };
+    // normalize する
+    const res: { [memberId: string]: NpsMemberAnswer[] } = {};
+    qs.docs.forEach((d) => {
+      const data = d.data();
+
+      if (res[data.memberId]) {
+        res[data.memberId].push({
+          id: d.id,
+          ...data,
+        });
+      } else {
+        res[data.memberId] = [
+          {
+            id: d.id,
+            ...data,
+          },
+        ];
+      }
     });
+
+    return res;
   }
 }

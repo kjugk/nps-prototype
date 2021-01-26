@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Member, Project } from "../../models/project";
+import { Member } from "../../models/project";
 import { PageLayout } from "../../components/page-layout";
 import { TableCell } from "../../components/table-cell";
 import { Button } from "../../components/button";
@@ -15,12 +15,11 @@ interface Props {
 
 // 社員一覧を表示する
 const MembersPage: NextPage<Props> = ({ members }) => {
-  const router = useRouter();
-
   return (
     <PageLayout>
-      <div className="mb-4 flex items-center">
+      <div className="mb-8 flex items-center">
         <h1 className="mr-4">メンバー一覧</h1>
+        <Button>csvインポート</Button>
       </div>
 
       <Box noPadding>
@@ -33,11 +32,11 @@ const MembersPage: NextPage<Props> = ({ members }) => {
           </thead>
 
           <tbody>
-            {members.map((p) => (
-              <Link href={`/projects/${p.id}`} key={p.id}>
+            {members.map((member) => (
+              <Link href={`/members/${member.id}`} key={member.id}>
                 <tr className="cursor-pointer hover:bg-gray-100">
-                  <TableCell>{p.id}</TableCell>
-                  <TableCell>{p.name}</TableCell>
+                  <TableCell>{member.id}</TableCell>
+                  <TableCell>{member.name}</TableCell>
                 </tr>
               </Link>
             ))}

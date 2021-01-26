@@ -1,6 +1,6 @@
 import { MemberDocument } from "../../lib/firestore/documents";
 import { firestore } from "../../firebaseAdmin";
-import { QuerySnapshot } from "@google-cloud/firestore";
+import { QuerySnapshot, QueryDocumentSnapshot } from "@google-cloud/firestore";
 import { Member } from "../../models/project";
 
 export class MemberRepository {
@@ -17,5 +17,18 @@ export class MemberRepository {
         name: data.name,
       };
     });
+  }
+
+  async getMember(memberId: string): Promise<Member> {
+    const qs = (await firestore
+      .collection("members")
+      .doc(memberId)
+      .get()) as QueryDocumentSnapshot<MemberDocument>;
+
+    const data = qs.data();
+    return {
+      id: qs.id,
+      ...data,
+    };
   }
 }

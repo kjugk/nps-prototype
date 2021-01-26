@@ -8,6 +8,7 @@ import { TableCell } from "../../components/table-cell";
 import { TableHeader } from "../../components/table-header";
 import { Button } from "../../components/button";
 import { Box } from "../../components/box";
+import { Breadcrumbs } from "../../components/breadcrumbs";
 
 interface Props {
   companies: Company[];
@@ -18,12 +19,12 @@ interface Props {
 const CompaniesPage: NextPage<Props> = ({ companies }) => {
   return (
     <PageLayout>
-      <div className="mb-4 flex">
+      <div className="mb-8 flex items-center">
         <h1 className="mr-4">企業一覧</h1>
         <Button>新規企業作成</Button>
       </div>
 
-      <Box>
+      <Box noPadding>
         <table className="table-fixed">
           <thead>
             <tr>

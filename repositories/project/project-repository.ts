@@ -1,6 +1,5 @@
 import { Project } from "../../models/project";
 import { ProjectDocument } from "../../lib/firestore/documents";
-import { getCollectionSnapShot } from "../../lib/firestore/get-collection-snapshot";
 import { firestore } from "../../firebaseAdmin";
 import { QuerySnapshot, DocumentSnapshot } from "@google-cloud/firestore";
 
@@ -11,6 +10,7 @@ export class ProjectRepository {
   async getAll(): Promise<Project[]> {
     const qs = (await firestore
       .collection("projects")
+      .orderBy("createdAt", "desc")
       .get()) as QuerySnapshot<ProjectDocument>;
 
     const projects: Project[] = [];
@@ -21,6 +21,7 @@ export class ProjectRepository {
       projects.push({
         id: ds.id,
         ...data,
+        createdAt: data.createdAt?.toDate()?.toDateString() || "",
       });
     });
 
@@ -40,6 +41,7 @@ export class ProjectRepository {
       return {
         id: d.id,
         ...data,
+        createdAt: data.createdAt?.toDate()?.toDateString() || "",
       };
     });
   }
@@ -55,6 +57,7 @@ export class ProjectRepository {
     return {
       id: snapshot.id,
       ...data,
+      createdAt: data.createdAt?.toDate()?.toDateString() || "",
     };
   }
 }
