@@ -20,7 +20,7 @@ interface Props {
 const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
   const router = useRouter();
   const handleCreateNps = async () => {
-    await axiosInstance.post("/api/create-nps", {
+    await axiosInstance.post("/api/create-nps.json", {
       projectId: project.id,
     });
 

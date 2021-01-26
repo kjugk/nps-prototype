@@ -6,13 +6,13 @@ import { Company } from "../../models/company";
 import { Member } from "../../models/project";
 import { MemberRepository } from "../../repositories/member/member-repository";
 import { CompanyRepository } from "../../repositories/project/company-repository";
-import axios from "axios";
 import { PageLayout } from "../../components/page-layout";
 import { Button } from "../../components/button";
 import { TextField } from "../../components/text-field";
 import { SelectBox } from "../../components/select-box";
 import { FormLabel } from "../../components/form-label";
 import { FormField } from "../../components/form-field";
+import { axiosInstance as axios } from "../../lib/axios";
 
 interface Props {
   companies: Company[];

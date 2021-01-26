@@ -3,13 +3,13 @@ import { NextPage } from "next";
 import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
 import { useForm, useFieldArray } from "react-hook-form";
-import axios from "axios";
 import { Box } from "../../../components/box";
 import { Divider } from "../../../components/divider";
 import { FormField } from "../../../components/form-field";
 import { FormLabel } from "../../../components/form-label";
 import { TextField } from "../../../components/text-field";
 import { Button } from "../../../components/button";
+import { axiosInstance as axios } from "../../../lib/axios";
 
 interface Props {
   nps: Nps;
