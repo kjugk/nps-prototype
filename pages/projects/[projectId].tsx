@@ -4,13 +4,13 @@ import { NextPage } from "next";
 import { ProjectRepository } from "../../repositories/project/project-repository";
 import { Nps, Project } from "../../models/project";
 import { NpsRepository } from "../../repositories/nps/nps-repository";
-import axios from "axios";
 import { PageLayout } from "../../components/page-layout";
 import React from "react";
 import { Button } from "../../components/button";
 import { Box } from "../../components/box";
 import { NpsList } from "../../components/shared/nps-list";
 import { Breadcrumbs } from "../../components/breadcrumbs";
+import { axiosInstance } from "../../lib/axios";
 
 interface Props {
   project: Project;
@@ -20,7 +20,7 @@ interface Props {
 const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
   const router = useRouter();
   const handleCreateNps = async () => {
-    await axios.post("/api/create-nps", {
+    await axiosInstance.post("/api/create-nps", {
       projectId: project.id,
     });
 
