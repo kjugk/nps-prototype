@@ -81,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   return {
     props: {
       projects,
-    }, // will be passed to the page component as props
+    },
   };
 };
 
