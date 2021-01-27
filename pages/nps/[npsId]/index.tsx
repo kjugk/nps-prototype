@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { NextPage } from "next";
+import { useRef } from "react";
 import { Box } from "../../../components/box";
 import { Button } from "../../../components/button";
 import { Divider } from "../../../components/divider";
@@ -16,14 +17,21 @@ interface Props {
 // プロジェクト一覧を表示する
 // TODO ログインしてなかったら sign-in ページにリダイレクト
 const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
-  const handleCopyUrl = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/nps/${nps.id}/edit`);
+  const copyButtonRef = useRef<HTMLButtonElement>(null);
+  const handleCopyUrl = async () => {
+    await navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/nps/${nps.id}/edit`
+    );
+    window.alert("コピーしました！");
+    copyButtonRef.current.blur();
   };
 
   return (
     <PageLayout>
       <div className="mb-4">
-        <Button onClick={handleCopyUrl}>回答ページのURLをコピー</Button>
+        <Button onClick={handleCopyUrl} ref={copyButtonRef}>
+          回答ページのURLをコピー
+        </Button>
       </div>
 
       <Box>
@@ -81,7 +89,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   // cookie からユーザー復元する
-
   let { npsId } = context.query;
   npsId = Array.isArray(npsId) ? npsId[0] : npsId;
 
@@ -97,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
       nps,
       npsAnswers,
       npsMemberAnswers,
-    }, // will be passed to the page component as props
+    },
   };
 };
 

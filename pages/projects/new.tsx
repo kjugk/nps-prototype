@@ -12,8 +12,7 @@ import { TextField } from "../../components/text-field";
 import { SelectBox } from "../../components/select-box";
 import { FormLabel } from "../../components/form-label";
 import { FormField } from "../../components/form-field";
-// import { axiosInstance as axios } from "../../lib/axios";
-import axios from "axios";
+import { axiosInstance as axios } from "../../lib/axios";
 
 interface Props {
   companies: Company[];
