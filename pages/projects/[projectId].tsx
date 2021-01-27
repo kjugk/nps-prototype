@@ -1,11 +1,10 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import { NextPage } from "next";
 import { ProjectRepository } from "../../repositories/project/project-repository";
 import { Nps, Project } from "../../models/project";
 import { NpsRepository } from "../../repositories/nps/nps-repository";
 import { PageLayout } from "../../components/page-layout";
-import React from "react";
 import { Button } from "../../components/button";
 import { Box } from "../../components/box";
 import { NpsList } from "../../components/shared/nps-list";
@@ -29,52 +28,57 @@ const ProjectPage: NextPage<Props> = ({ project, npsList }) => {
   };
 
   return (
-    <PageLayout>
-      <Breadcrumbs
-        items={[
-          {
-            url: "/projects",
-            text: "プロジェクト一覧",
-          },
-          {
-            text: project.name,
-          },
-        ]}
-      />
+    <>
+      <Head>
+        <title>NPS - project page</title>
+      </Head>
+      <PageLayout>
+        <Breadcrumbs
+          items={[
+            {
+              url: "/projects",
+              text: "プロジェクト一覧",
+            },
+            {
+              text: project.name,
+            },
+          ]}
+        />
 
-      <article>
-        <h1 className="mb-8">{project.name}</h1>
+        <article>
+          <h1 className="mb-8">{project.name}</h1>
 
-        <section>
-          <div className="mb-4 flex items-center">
-            <h2 className="mr-4">詳細情報</h2>
-            <Button type="button">プロジェクト編集</Button>
-          </div>
-
-          <Box>
-            <div>ID: {project.id}</div>
-            <div>企業: {project.companyName}</div>
-            <div>統括: {project.managerName}</div>
-            <div>
-              メンバー: {project.members.map((m) => m.name).join(" , ")}
+          <section>
+            <div className="mb-4 flex items-center">
+              <h2 className="mr-4">詳細情報</h2>
+              <Button type="button">プロジェクト編集</Button>
             </div>
-          </Box>
-        </section>
 
-        <section className="mb-8">
-          <div className="mb-4 flex items-center">
-            <h2 className="mr-4">NPS 一覧</h2>
-            <Button type="button" onClick={handleCreateNps}>
-              新規 NPS 作成
-            </Button>
-          </div>
+            <Box>
+              <div>ID: {project.id}</div>
+              <div>企業: {project.companyName}</div>
+              <div>統括: {project.managerName}</div>
+              <div>
+                メンバー: {project.members.map((m) => m.name).join(" , ")}
+              </div>
+            </Box>
+          </section>
 
-          <Box noPadding>
-            <NpsList npsList={npsList} />
-          </Box>
-        </section>
-      </article>
-    </PageLayout>
+          <section className="mb-8">
+            <div className="mb-4 flex items-center">
+              <h2 className="mr-4">NPS 一覧</h2>
+              <Button type="button" onClick={handleCreateNps}>
+                新規 NPS 作成
+              </Button>
+            </div>
+
+            <Box noPadding>
+              <NpsList npsList={npsList} />
+            </Box>
+          </section>
+        </article>
+      </PageLayout>
+    </>
   );
 };
 
