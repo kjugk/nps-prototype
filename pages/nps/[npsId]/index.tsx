@@ -7,6 +7,7 @@ import { Divider } from "../../../components/divider";
 import { PageLayout } from "../../../components/page-layout";
 import { Nps, NpsAnswer, NpsMemberAnswer } from "../../../models/project";
 import { NpsRepository } from "../../../repositories/nps/nps-repository";
+import { getNpsStatusLabel } from "../../../utils/nps-util";
 
 interface Props {
   nps: Nps;
@@ -14,8 +15,7 @@ interface Props {
   npsMemberAnswers: { [memberId: string]: NpsMemberAnswer[] };
 }
 
-// プロジェクト一覧を表示する
-// TODO ログインしてなかったら sign-in ページにリダイレクト
+// NPS詳細を表示する
 const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
   const copyButtonRef = useRef<HTMLButtonElement>(null);
   const handleCopyUrl = async () => {
@@ -39,7 +39,7 @@ const NpsPage: NextPage<Props> = ({ nps, npsAnswers, npsMemberAnswers }) => {
         <Divider />
 
         <div className="grid grid-cols-2">
-          <div>ステータス : {nps.status === "yet" ? "未回答" : "回答済"}</div>
+          <div>ステータス : {getNpsStatusLabel(nps)}</div>
           <div>プロジェクト名 : {nps.projectName}</div>
           <div>回答者 : {nps.answererName || "-"}</div>
           <div>企業名 : {nps.companyName}</div>

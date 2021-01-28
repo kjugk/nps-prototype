@@ -4,6 +4,8 @@ import { Nps } from "../../../models/project";
 import { TableHeader } from "../../table-header";
 import { TableCell } from "../../table-cell";
 import { Label } from "../../label";
+import { getNpsStatusLabel } from "../../../utils/nps-util";
+import { formatMilliSec } from "../../../utils/date-util";
 
 interface Props {
   npsList: Nps[];
@@ -32,13 +34,7 @@ export const NpsList: FC<Props> = ({ npsList }) => {
                 <TableCell>
                   <Link href={`/nps/${nps.id}`}>{nps.id}</Link>
                 </TableCell>
-                <TableCell>
-                  {nps.status === "done" ? (
-                    <Label>回答済</Label>
-                  ) : (
-                    <Label variant="warning">未回答</Label>
-                  )}
-                </TableCell>
+                <TableCell>{getNpsStatusLabel(nps)}</TableCell>
                 <TableCell>{nps.projectName}</TableCell>
                 <TableCell>
                   {nps.answererName === "" ? "-" : nps.answererName}
@@ -46,8 +42,10 @@ export const NpsList: FC<Props> = ({ npsList }) => {
                 <TableCell>
                   {nps.members.map((member) => member.name).join(" , ")}
                 </TableCell>
-                <TableCell>{nps.answeredAt ?? "-"}</TableCell>
-                <TableCell>{nps.createdAt ?? "-"}</TableCell>
+                <TableCell>
+                  {nps.answeredAt ? formatMilliSec(nps.answeredAt) : "-"}
+                </TableCell>
+                <TableCell>{formatMilliSec(nps.createdAt)}</TableCell>
               </tr>
             </Link>
           ))}
