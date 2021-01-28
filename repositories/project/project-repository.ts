@@ -5,6 +5,7 @@ import { QuerySnapshot, DocumentSnapshot } from "@google-cloud/firestore";
 
 // クラスにする必要ある?
 // Interface 定義するわけじゃないし、モジュールでいいかも。
+// DI まで実装しないと、テストしやすさには貢献しない。
 export class ProjectRepository {
   // プロジェクト一覧を取得する
   async getAll(): Promise<Project[]> {

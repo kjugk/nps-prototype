@@ -21,8 +21,8 @@ export class NpsRepository {
       return {
         id: q.id,
         ...data,
-        createdAt: data.createdAt.toDate().toDateString(),
-        answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
+        createdAt: data.createdAt.toMillis(),
+        answeredAt: data.answeredAt?.toMillis() ?? null,
       };
     });
   }
@@ -40,8 +40,8 @@ export class NpsRepository {
       return {
         id: q.id,
         ...data,
-        createdAt: data.createdAt.toDate().toDateString(),
-        answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
+        createdAt: data.createdAt.toMillis(),
+        answeredAt: data.answeredAt?.toMillis() ?? null,
       };
     });
   }
@@ -58,8 +58,8 @@ export class NpsRepository {
     return {
       id: qs.id,
       ...data,
-      createdAt: data.createdAt.toDate().toDateString(),
-      answeredAt: data.answeredAt?.toDate()?.toDateString() ?? null,
+      createdAt: data.createdAt.toMillis(),
+      answeredAt: data.answeredAt?.toMillis() ?? null,
     };
   }
 

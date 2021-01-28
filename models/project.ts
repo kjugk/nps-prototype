@@ -10,10 +10,10 @@ export interface Nps {
   companyId: string;
   companyName: string; // 冗長だけど値を持たせる
   answererName: string;
-  answeredAt: string | null;
+  answeredAt: number | null;
+  createdAt: number; // エポック秒(ミリ秒)
   memberIds: string[]; // メンバー別 NPS 検索用
   status: "yet" | "done";
-  createdAt: string;
   members: {
     // 冗長だけど値を持たせる
     id: string;
