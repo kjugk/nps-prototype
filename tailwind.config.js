@@ -1,5 +1,4 @@
 const plugin = require("tailwindcss/plugin");
-const colors = require("tailwindcss/colors");
 
 module.exports = {
   purge: ["./pages/**/*.tsx", "./components/**/*.tsx"],
